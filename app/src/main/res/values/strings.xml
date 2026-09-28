@@ -7,5 +7,8 @@
     <string name="suggested_recipes">Suggested Recipes</string>
     <string name="suggested_recipes_description">Find recipes you can make with your pantry</string>
     <string name="settings">Settings</string>
-    <string name="settings_descirption">Manage your app preferences</string>
+    <string name="settings_description">Manage your app preferences</string>
+    <string name="pantry_title">MY PANTRY</string>
+    <string name="pantry_subtitle">Keep track of what you have at home.</string>
+    <string name="add_item">+ ADD ITEM</string>
 </resources>
