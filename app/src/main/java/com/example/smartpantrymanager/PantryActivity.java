@@ -28,6 +28,8 @@ public class PantryActivity extends AppCompatActivity {
     private ArrayList<String> pantryItemNames;
     private ArrayList<String> pantryItemCategories;
     private ArrayList<Integer> pantryItemQuantities;
+    private ArrayList<String> pantryItemUnits;
+
     private ArrayList<String> pantryItemExpiryDates;
     private ArrayAdapter<String> adapter;
 
@@ -46,6 +48,7 @@ public class PantryActivity extends AppCompatActivity {
         pantryItemNames = new ArrayList<>();
         pantryItemCategories = new ArrayList<>();
         pantryItemQuantities = new ArrayList<>();
+        pantryItemUnits = new ArrayList<>();
         pantryItemExpiryDates = new ArrayList<>();
 
 
@@ -103,6 +106,7 @@ public class PantryActivity extends AppCompatActivity {
                     String itemName = pantryItemNames.get(position);
                     String itemCategory = pantryItemCategories.get(position);
                     int itemQuantity = pantryItemQuantities.get(position);
+                    String itemUnit = pantryItemUnits.get(position);
                     String itemExpiryDate = pantryItemExpiryDates.get(position);
 
                     AlertDialog deleteDialog = new AlertDialog.Builder(PantryActivity.this)
@@ -158,6 +162,7 @@ public class PantryActivity extends AppCompatActivity {
                                     intent.putExtra("ITEM_NAME", itemName);
                                     intent.putExtra("ITEM_CATEGORY", itemCategory);
                                     intent.putExtra("ITEM_QUANTITY", itemQuantity);
+                                    intent.putExtra("ITEM_UNIT", itemUnit);
                                     intent.putExtra("ITEM_EXPIRY_DATE", itemExpiryDate);
 
                                     startActivity(intent);
@@ -179,6 +184,7 @@ public class PantryActivity extends AppCompatActivity {
                                         pantryItemNames.remove(position);
                                         pantryItemCategories.remove(position);
                                         pantryItemQuantities.remove(position);
+                                        pantryItemUnits.remove(position);
                                         pantryItemExpiryDates.remove(position);
 
                                         adapter.notifyDataSetChanged();
@@ -216,6 +222,7 @@ public class PantryActivity extends AppCompatActivity {
         pantryItemNames.clear();
         pantryItemCategories.clear();
         pantryItemQuantities.clear();
+        pantryItemUnits.clear();
         pantryItemExpiryDates.clear();
 
         Cursor cursor = databaseHelper.getAllItems();
@@ -236,6 +243,9 @@ public class PantryActivity extends AppCompatActivity {
             int quantity = cursor.getInt(
                     cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_QUANTITY)
             );
+            String unit = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_UNIT)
+            );
 
             String expiryDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EXPIRY_DATE)
@@ -245,12 +255,13 @@ public class PantryActivity extends AppCompatActivity {
             pantryItemNames.add(name);
             pantryItemCategories.add(category);
             pantryItemQuantities.add(quantity);
+            pantryItemUnits.add(unit);
             pantryItemExpiryDates.add(expiryDate);
 
             pantryItems.add(
                     name +
                             "\nCategory: " + category +
-                            " | Quantity: " + quantity +
+                            " | Quantity: " + quantity + " " + unit +
                             "\nExpiry: " + expiryDate
             );
 

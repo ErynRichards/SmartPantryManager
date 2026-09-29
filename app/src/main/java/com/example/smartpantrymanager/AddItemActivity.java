@@ -25,6 +25,8 @@ public class AddItemActivity extends AppCompatActivity {
         EditText editItemName = findViewById(R.id.editItemName);
         EditText editCategory = findViewById(R.id.editCategory);
         EditText editQuantity = findViewById(R.id.editQuantity);
+        EditText editUnit = findViewById(R.id.editUnit);
+
         EditText editExpiryDate = findViewById(R.id.editExpiryDate);
 
 
@@ -39,11 +41,13 @@ public class AddItemActivity extends AppCompatActivity {
             String itemName = intent.getStringExtra("ITEM_NAME");
             String itemCategory = intent.getStringExtra("ITEM_CATEGORY");
             int itemQuantity = intent.getIntExtra("ITEM_QUANTITY", 0);
+            String itemUnit = intent.getStringExtra("ITEM_UNIT");
             String itemExpiryDate = intent.getStringExtra("ITEM_EXPIRY_DATE");
 
             editItemName.setText(itemName);
             editCategory.setText(itemCategory);
             editQuantity.setText(String.valueOf(itemQuantity));
+            editUnit.setText(itemUnit);
             editExpiryDate.setText(itemExpiryDate);
             buttonSaveItem.setText("UPDATE ITEM");
 
@@ -58,9 +62,10 @@ public class AddItemActivity extends AppCompatActivity {
             String name = editItemName.getText().toString().trim();
             String category = editCategory.getText().toString().trim();
             String quantityText = editQuantity.getText().toString().trim();
+            String unit = editUnit.getText().toString().trim();
             String expiryDate = editExpiryDate.getText().toString().trim();
 
-            if (name.isEmpty() || category.isEmpty() || quantityText.isEmpty() || expiryDate.isEmpty()){
+            if (name.isEmpty() || category.isEmpty() || quantityText.isEmpty() || unit.isEmpty() || expiryDate.isEmpty()){
                 Toast.makeText(AddItemActivity.this,
                         "Please fill in all fields",
                         Toast.LENGTH_SHORT).show();
@@ -76,6 +81,7 @@ public class AddItemActivity extends AppCompatActivity {
                         name,
                         category,
                         quantity,
+                        unit,
                         expiryDate
                 );
 
@@ -85,6 +91,7 @@ public class AddItemActivity extends AppCompatActivity {
                         name,
                         category,
                         quantity,
+                        unit,
                         expiryDate
                 );
 
@@ -98,6 +105,7 @@ public class AddItemActivity extends AppCompatActivity {
                             "Item saved successfully",
                             Toast.LENGTH_SHORT
                     ).show();
+                    finish();
                 }else {
 
                     Toast.makeText(
@@ -111,6 +119,7 @@ public class AddItemActivity extends AppCompatActivity {
                 editItemName.setText("");
                 editCategory.setText("");
                 editQuantity.setText("");
+                editUnit.setText("");
                 editExpiryDate.setText("");
 
                 editItemName.requestFocus();

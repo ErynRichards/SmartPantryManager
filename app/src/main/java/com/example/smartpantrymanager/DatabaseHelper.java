@@ -11,7 +11,7 @@ import android.database.Cursor;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "smart_pantry.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_PANTRY = "pantry_items";
 
@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String COLUMN_NAME = "name";
     public static final  String COLUMN_CATEGORY = "category";
     public static final  String COLUMN_QUANTITY = "quantity";
+    public static final String COLUMN_UNIT = "unit";
     public static final  String COLUMN_EXPIRY_DATE = "expiry_date";
 
     public DatabaseHelper(Context context) {
@@ -31,17 +32,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 COLUMN_NAME + " TEXT NOT NULL, " +
                 COLUMN_CATEGORY +  " TEXT NOT NULL, " +
                 COLUMN_QUANTITY + " INTEGER NOT NULL, " +
+                COLUMN_UNIT + " TEXT NOT NULL, " +
                 COLUMN_EXPIRY_DATE + " TEXT)";
 
         db.execSQL(createTable);
     }
 
-    public boolean addItem(String name, String category, int quantity, String expiryDate){
+    public boolean addItem(String name, String category, int quantity, String unit, String expiryDate){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_CATEGORY, category);
         values.put(COLUMN_QUANTITY, quantity);
+        values.put(COLUMN_UNIT, unit);
         values.put(COLUMN_EXPIRY_DATE, expiryDate);
         long result = db.insert(TABLE_PANTRY, null, values);
         return result != -1;
@@ -73,12 +76,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return rowsDeleted > 0;
     }
 
-    public boolean updateItem(int id, String name, String category, int quantity, String expiryDate){
+    public boolean updateItem(int id, String name, String category, int quantity, String unit, String expiryDate){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_CATEGORY, category);
         values.put(COLUMN_QUANTITY, quantity);
+        values.put(COLUMN_UNIT, unit);
         values.put(COLUMN_EXPIRY_DATE, expiryDate);
 
         int rowsUpdated = db.update(

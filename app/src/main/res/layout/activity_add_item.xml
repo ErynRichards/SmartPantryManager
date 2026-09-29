@@ -64,6 +64,18 @@
         app:layout_constraintTop_toBottomOf="@id/editCategory"
         />
     <EditText
+        android:id="@+id/editUnit"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:hint="Unit (e.g. g, kg, ml, pieces)"
+        android:inputType="text"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editQuantity"
+        />
+    <EditText
         android:id="@+id/editExpiryDate"
         android:layout_width="0dp"
         android:layout_height="56dp"
@@ -73,7 +85,7 @@
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editQuantity"
+        app:layout_constraintTop_toBottomOf="@id/editUnit"
         />
 
     <Button
