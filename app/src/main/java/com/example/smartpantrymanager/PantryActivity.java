@@ -32,6 +32,10 @@ public class PantryActivity extends AppCompatActivity {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         ArrayList<String> pantryItems = new ArrayList<>();
         ArrayList<Integer> pantryItemIds = new ArrayList<>();
+        ArrayList<String> pantryItemNames = new ArrayList<>();
+        ArrayList<String> pantryItemCategories = new ArrayList<>();
+        ArrayList<Integer> pantryItemQuantities = new ArrayList<>();
+        ArrayList<String> pantryItemExpiryDates = new ArrayList<>();
 
 
         Cursor cursor = databaseHelper.getAllItems();
@@ -57,6 +61,10 @@ public class PantryActivity extends AppCompatActivity {
             String expiryDate = cursor.getString(
                     cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EXPIRY_DATE)
             );
+            pantryItemNames.add(name);
+            pantryItemCategories.add(category);
+            pantryItemQuantities.add(Integer.parseInt(quantity));
+            pantryItemExpiryDates.add(expiryDate);
 
             pantryItems.add(
                     name +
@@ -81,11 +89,16 @@ public class PantryActivity extends AppCompatActivity {
 
         listPantryItems.setOnItemClickListener((parent, view, position, id) -> {
                     int itemId = pantryItemIds.get(position);
+                    String itemName = pantryItemNames.get(position);
+                    String itemCategory = pantryItemCategories.get(position);
+                    int itemQuantity = pantryItemQuantities.get(position);
+                    String itemExpiryDate = pantryItemExpiryDates.get(position);
 
                     AlertDialog deleteDialog = new AlertDialog.Builder(PantryActivity.this)
-                            .setTitle("Delete Item")
-                            .setMessage("Are you sure you want to delete this pantry item?")
+                            .setTitle(itemName)
+                            .setMessage("What would you like to do with this pantry item?")
                             .setPositiveButton("DELETE", null)
+                            .setNeutralButton("EDIT", null)
                             .setNegativeButton("CANCEL", null)
                             .create();
 
@@ -96,6 +109,10 @@ public class PantryActivity extends AppCompatActivity {
 
                                 Button cancelButton =
                                         deleteDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                                Button editButton =
+                                        deleteDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+
 
                                 deleteButton.setTextColor(
                                         getResources().getColor(R.color.white, getTheme())
@@ -112,6 +129,31 @@ public class PantryActivity extends AppCompatActivity {
                                                 getTheme()
                                         )
                                 );
+
+                                editButton.setTextColor(
+                                        getResources().getColor(
+                                                R.color.pantry_dark_green,
+                                                getTheme()
+                                        )
+                                );
+
+                                editButton.setOnClickListener(v -> {
+                                    Intent intent = new Intent(
+                                            PantryActivity.this,
+                                            AddItemActivity.class
+                                    );
+
+                                    intent.putExtra("ITEM_ID", itemId);
+                                    intent.putExtra("ITEM_NAME", itemName);
+                                    intent.putExtra("ITEM_CATEGORY", itemCategory);
+                                    intent.putExtra("ITEM_QUANTITY", itemQuantity);
+                                    intent.putExtra("ITEM_EXPIRY_DATE", itemExpiryDate);
+
+                                    startActivity(intent);
+                                    deleteDialog.dismiss();
+
+
+                                });
 
 
                                 deleteButton.setOnClickListener(v -> {

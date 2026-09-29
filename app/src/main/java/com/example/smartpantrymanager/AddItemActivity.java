@@ -11,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
+
 
 
 public class AddItemActivity extends AppCompatActivity {
@@ -29,6 +31,27 @@ public class AddItemActivity extends AppCompatActivity {
 
         Button buttonSaveItem = findViewById(R.id.buttonSaveItem);
 
+
+        Intent intent = getIntent();
+        int itemId = intent.getIntExtra("ITEM_ID", -1);
+
+        if (itemId != -1){
+            String itemName = intent.getStringExtra("ITEM_NAME");
+            String itemCategory = intent.getStringExtra("ITEM_CATEGORY");
+            int itemQuantity = intent.getIntExtra("ITEM_QUANTITY", 0);
+            String itemExpiryDate = intent.getStringExtra("ITEM_EXPIRY_DATE");
+
+            editItemName.setText(itemName);
+            editCategory.setText(itemCategory);
+            editQuantity.setText(String.valueOf(itemQuantity));
+            editExpiryDate.setText(itemExpiryDate);
+            buttonSaveItem.setText("UPDATE ITEM");
+
+
+        }
+
+
+
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         buttonSaveItem.setOnClickListener(v -> {
@@ -46,17 +69,44 @@ public class AddItemActivity extends AppCompatActivity {
 
             }
             int quantity = Integer.parseInt(quantityText);
-            boolean isInserted = databaseHelper.addItem(
-                    name,
-                    category,
-                    quantity,
-                    expiryDate
-            );
+            boolean success;
 
-            if (isInserted){
-                Toast.makeText(AddItemActivity.this,
-                        "Item saved successfully",
-                        Toast.LENGTH_SHORT).show();
+            if(itemId == -1) {
+                success = databaseHelper.addItem(
+                        name,
+                        category,
+                        quantity,
+                        expiryDate
+                );
+
+            } else {
+                success = databaseHelper.updateItem(
+                        itemId,
+                        name,
+                        category,
+                        quantity,
+                        expiryDate
+                );
+
+            }
+
+
+            if (success){
+                if(itemId == -1){
+                    Toast.makeText(
+                            AddItemActivity.this,
+                            "Item saved successfully",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }else {
+
+                    Toast.makeText(
+                            AddItemActivity.this,
+                            "Item updated successfully",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+
                 editItemName.setText("");
                 editCategory.setText("");
                 editQuantity.setText("");

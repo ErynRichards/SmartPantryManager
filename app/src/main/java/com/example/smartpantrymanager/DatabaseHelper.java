@@ -73,6 +73,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return rowsDeleted > 0;
     }
 
+    public boolean updateItem(int id, String name, String category, int quantity, String expiryDate){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, name);
+        values.put(COLUMN_CATEGORY, category);
+        values.put(COLUMN_QUANTITY, quantity);
+        values.put(COLUMN_EXPIRY_DATE, expiryDate);
+
+        int rowsUpdated = db.update(
+                TABLE_PANTRY,
+                values,
+                COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)}
+        );
+        return rowsUpdated > 0;
+
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PANTRY);
