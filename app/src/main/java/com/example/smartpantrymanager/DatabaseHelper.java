@@ -62,6 +62,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         );
     }
 
+    public boolean deleteItem(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int rowsDeleted =  db.delete(
+                TABLE_PANTRY,
+                COLUMN_ID + " = ?",
+                new String[]{String.valueOf(id)}
+        );
+        return rowsDeleted > 0;
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PANTRY);
