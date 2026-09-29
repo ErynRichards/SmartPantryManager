@@ -105,6 +105,7 @@ public class AddItemActivity extends AppCompatActivity {
                             "Item updated successfully",
                             Toast.LENGTH_SHORT
                     ).show();
+                    finish();
                 }
 
                 editItemName.setText("");
@@ -129,4 +130,5 @@ public class AddItemActivity extends AppCompatActivity {
             return insets;
         });
     }
+
 }

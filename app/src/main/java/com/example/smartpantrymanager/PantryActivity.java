@@ -20,6 +20,17 @@ import java.util.ArrayList;
 
 
 public class PantryActivity extends AppCompatActivity {
+    private  ListView listPantryItems;
+    private DatabaseHelper databaseHelper;
+
+    private ArrayList<String> pantryItems;
+    private ArrayList<Integer> pantryItemIds;
+    private ArrayList<String> pantryItemNames;
+    private ArrayList<String> pantryItemCategories;
+    private ArrayList<Integer> pantryItemQuantities;
+    private ArrayList<String> pantryItemExpiryDates;
+    private ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +39,14 @@ public class PantryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pantry);
         Button buttonAddItem = findViewById(R.id.buttonAddItem);
 
-        ListView listPantryItems = findViewById(R.id.listPantryItems);
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        ArrayList<String> pantryItems = new ArrayList<>();
-        ArrayList<Integer> pantryItemIds = new ArrayList<>();
-        ArrayList<String> pantryItemNames = new ArrayList<>();
-        ArrayList<String> pantryItemCategories = new ArrayList<>();
-        ArrayList<Integer> pantryItemQuantities = new ArrayList<>();
-        ArrayList<String> pantryItemExpiryDates = new ArrayList<>();
+        listPantryItems = findViewById(R.id.listPantryItems);
+        databaseHelper = new DatabaseHelper(this);
+        pantryItems = new ArrayList<>();
+        pantryItemIds = new ArrayList<>();
+        pantryItemNames = new ArrayList<>();
+        pantryItemCategories = new ArrayList<>();
+        pantryItemQuantities = new ArrayList<>();
+        pantryItemExpiryDates = new ArrayList<>();
 
 
         Cursor cursor = databaseHelper.getAllItems();
@@ -79,7 +90,7 @@ public class PantryActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 pantryItems
@@ -165,6 +176,11 @@ public class PantryActivity extends AppCompatActivity {
 
                                         pantryItems.remove(position);
                                         pantryItemIds.remove(position);
+                                        pantryItemNames.remove(position);
+                                        pantryItemCategories.remove(position);
+                                        pantryItemQuantities.remove(position);
+                                        pantryItemExpiryDates.remove(position);
+
                                         adapter.notifyDataSetChanged();
 
                                         Toast.makeText(
@@ -193,4 +209,62 @@ public class PantryActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    private void loadPantryItems(){
+        pantryItems.clear();
+        pantryItemIds.clear();
+        pantryItemNames.clear();
+        pantryItemCategories.clear();
+        pantryItemQuantities.clear();
+        pantryItemExpiryDates.clear();
+
+        Cursor cursor = databaseHelper.getAllItems();
+
+        while(cursor.moveToNext()){
+            int itemId = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)
+            );
+
+            String name = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NAME)
+            );
+
+            String category = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_CATEGORY)
+            );
+
+            int quantity = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_QUANTITY)
+            );
+
+            String expiryDate = cursor.getString(
+                    cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EXPIRY_DATE)
+            );
+
+            pantryItemIds.add(itemId);
+            pantryItemNames.add(name);
+            pantryItemCategories.add(category);
+            pantryItemQuantities.add(quantity);
+            pantryItemExpiryDates.add(expiryDate);
+
+            pantryItems.add(
+                    name +
+                            "\nCategory: " + category +
+                            " | Quantity: " + quantity +
+                            "\nExpiry: " + expiryDate
+            );
+
+        }
+        cursor.close();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if( adapter != null){
+            loadPantryItems();
+        }
+    }
+
 }
