@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import  android.content.ContentValues;
+import android.database.Cursor;
 
 
 
@@ -46,6 +47,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return result != -1;
 
 
+    }
+
+    public Cursor getAllItems(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                TABLE_PANTRY,
+                null,
+                null,
+                null,
+                null,
+                null,
+                COLUMN_NAME + " ASC"
+        );
     }
 
     @Override
