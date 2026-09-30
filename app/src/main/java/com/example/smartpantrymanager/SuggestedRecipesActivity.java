@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
+import android.widget.Button;
 import java.util.ArrayList;
 
 public class SuggestedRecipesActivity extends AppCompatActivity {
@@ -34,6 +34,10 @@ public class SuggestedRecipesActivity extends AppCompatActivity {
 
         listSuggestedRecipes = findViewById(R.id.listSuggestedRecipes);
         textNoRecipes = findViewById(R.id.textNoRecipes);
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> {
+            finish();
+        });
         databaseHelper = new DatabaseHelper(this);
 
 

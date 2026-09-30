@@ -5,6 +5,55 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pantry_cream"
     tools:context=".RecipeDetailActivity">
+
+    <TextView
+        android:id="@+id/textRecipeName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:text="RECIPE NAME"
+        android:textColor="@color/pantry_dark_green"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textRecipeIngredients"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
+        android:text="Ingredients"
+        android:textColor="@color/pantry_dark_green"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textRecipeName"
+        />
+
+    <TextView
+        android:id="@+id/textRecipeSteps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
+        android:text="Preparation steps"
+        android:textColor="@color/pantry_dark_green"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textRecipeIngredients"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
