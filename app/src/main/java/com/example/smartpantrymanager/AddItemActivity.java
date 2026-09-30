@@ -65,15 +65,33 @@ public class AddItemActivity extends AppCompatActivity {
             String unit = editUnit.getText().toString().trim();
             String expiryDate = editExpiryDate.getText().toString().trim();
 
-            if (name.isEmpty() || category.isEmpty() || quantityText.isEmpty() || unit.isEmpty() || expiryDate.isEmpty()){
+            if (name.isEmpty() || category.isEmpty() || quantityText.isEmpty() || unit.isEmpty() ){
                 Toast.makeText(AddItemActivity.this,
-                        "Please fill in all fields",
+                        "Please fill in all required fields",
                         Toast.LENGTH_SHORT).show();
                 return;
 
 
             }
-            int quantity = Integer.parseInt(quantityText);
+            int quantity;
+            try {
+                quantity = Integer.parseInt(quantityText);
+                if(quantity <= 0){
+                    Toast.makeText(
+                            AddItemActivity.this,
+                            "Quantity must be greater than 0",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    return;
+                }
+            }catch (NumberFormatException e){
+                Toast.makeText(
+                        AddItemActivity.this,
+                        "Please enter a valid quantity",
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
             boolean success;
 
             if(itemId == -1) {

@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.widget.Button;
+import com.google.android.material.appbar.MaterialToolbar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +37,29 @@ public class MainActivity extends AppCompatActivity {
         buttonSettings.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
+        });
+
+        MaterialToolbar mainToolbar = findViewById(R.id.mainToolbar);
+        mainToolbar.setOnMenuItemClickListener( item-> {
+            int itemId = item.getItemId();
+            if(itemId == R.id.menuHome){
+                return true;
+            }else if (itemId == R.id.menuPantry){
+                Intent intent = new Intent(MainActivity.this, PantryActivity.class);
+                startActivity(intent);
+                return true;
+
+            } else if (itemId == R.id.menuRecipes) {
+                Intent intent = new Intent(MainActivity.this, SuggestedRecipesActivity.class);
+                startActivity(intent);
+                return true;
+            } else if (itemId == R.id.menuSettings) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+            return false;
+
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
