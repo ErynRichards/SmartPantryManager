@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Button;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
@@ -21,6 +22,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
         TextView textRecipeName = findViewById(R.id.textRecipeName);
         TextView textRecipeIngredients = findViewById(R.id.textRecipeIngredients);
         TextView textRecipeSteps = findViewById(R.id.textRecipeSteps);
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v ->{
+            finish();
+        });
 
         Intent intent = getIntent();
         String recipeName = intent.getStringExtra("RECIPE_NAME");

@@ -41,6 +41,10 @@ public class PantryActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pantry);
         Button buttonAddItem = findViewById(R.id.buttonAddItem);
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> {
+            finish();
+        });
 
         listPantryItems = findViewById(R.id.listPantryItems);
         databaseHelper = new DatabaseHelper(this);
